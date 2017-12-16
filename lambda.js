@@ -1,10 +1,12 @@
-// def identity = lamda x.x
+// lambda character lower case (λ) in Linux is: ctrl+shift+U 03BB
+// lambda character upper case (Λ) in Linux is: ctrl+shift+U 039B
+
+// def identity = lamda λx.x
 const identity = x => x;
 
-// def self_apply = lambda s.(s s)
+// def self_apply = λs.(s s)
 const self_apply = s => s(s);
 
-// def apply = lambda func.lambda arg.(func arg)
+// def apply = λfunc.λarg.(func arg)
 const apply = func => arg => func(arg);
-
 
