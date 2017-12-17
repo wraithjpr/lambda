@@ -49,3 +49,12 @@ const self_apply = s => s(s);
 // def apply = λfunc.λarg.(func arg)
 const apply = func => arg => func(arg);
 
+// def select_first = λfirst.λsecond.first
+const select_first = first => second => first;
+
+// def select_second = λfirst.λsecond.second
+const select_first = first => second => first;
+
+// def make_pair = λfirst.λsecond.λfunc.((func first) second)
+const make_pair = first => second => func => func(first)(second);
+
