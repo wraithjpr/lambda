@@ -53,8 +53,36 @@ const apply = func => arg => func(arg);
 const select_first = first => second => first;
 
 // def select_second = λfirst.λsecond.second
-const select_first = first => second => first;
+const select_second = first => second => second;
 
 // def make_pair = λfirst.λsecond.λfunc.((func first) second)
 const make_pair = first => second => func => func(first)(second);
+
+// def true = select_first
+const TRUE = select_first;
+TRUE.inspect = () => `TRUE as [${typeof TRUE}: ${TRUE.name}]`;
+
+// def false = select_second
+const FALSE = select_second;
+FALSE.inspect = () => `FALSE as [${typeof FALSE}: ${FALSE.name}]`;
+
+/*
+ * λe1.λe2.λc.((c e1) e2) implements the conditional (ternary) operator in JavaScript, condition ? expr1 : expr2
+ * If c is true, then it is select_first and ((c e1) e2) == ((select_first e1) e2) => ... => e1. 
+ * If c is false, then it is select_second and ((c e1) e2) == ((select_second e1) e2) => ... => e2. 
+ */
+// def cond = λe1.λe2.λc.((c e1) e2)
+const cond = make_pair;
+
+// def not = λx.(((cond false) true) x) => ... => λx.((x false) true)
+const NOT = x => x(FALSE)(TRUE);
+
+// def and = λx.λy.(((cond y) false) x) => ... => λx.λy.((x y) false)
+const AND = x => y => x(y)(FALSE);
+
+//def or = λx.λy.(((cond true) y) x) => ... => λx.λy.((x true) y)
+const OR = x => y => x(TRUE)(y);
+
+
+
 
