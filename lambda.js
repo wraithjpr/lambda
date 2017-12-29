@@ -91,8 +91,14 @@ const NOT = x => x(FALSE)(TRUE);
 // def and = λx.λy.(((cond y) false) x) => ... => λx.λy.((x y) false)
 const AND = x => y => x(y)(FALSE);
 
+// def nand = λx.λy.(((cond (not y)) true) x) => ... => λx.λy.((x (not y)) true)
+const NAND = x => y => x(NOT(y))(TRUE);
+
 //def or = λx.λy.(((cond true) y) x) => ... => λx.λy.((x true) y)
 const OR = x => y => x(TRUE)(y);
+
+// def xor = λx.λy.(((cond (not y)) y) x) => ... => λx.λy.((x (not y)) y)
+const XOR = x => y => x(NOT(y))(y);
 
 // def implies = λx.λy.(((cond y) true) x) => ... => λx.λy.((x y) true)
 const IMPLIES = x => y => x(y)(TRUE);
