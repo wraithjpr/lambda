@@ -94,6 +94,12 @@ const AND = x => y => x(y)(FALSE);
 //def or = λx.λy.(((cond true) y) x) => ... => λx.λy.((x true) y)
 const OR = x => y => x(TRUE)(y);
 
+// def implies = λx.λy.(((cond y) true) x) => ... => λx.λy.((x y) true)
+const IMPLIES = x => y => x(y)(TRUE);
+
+// def equiv = λx.λy.(((cond y) (not y)) x) => ... => λx.λy.((x y) (not y))
+const EQUIV = x => y => x(y)(NOT(y));
+
 /* ==============================================================================================================
  * N A T U R A L  N U M B E R S
  * ----------------------------
