@@ -14,7 +14,19 @@
  * <function expression> ::= <expression>
  * <argument expression> ::= <expression>
  *
+ * Name/function association Definitions
+ * -------------------------------------
  * def <name> = <function>
+ *
+ * Simplified Notations
+ * --------------------
+ * def <names> = λ<name>.<expresssion> ==
+ * def <names> <name> = <expression>
+ *
+ * cond <true choice> <false choice> <condition> ==
+ * if <condition>
+ * then <true choice>
+ * else <false choice>
  *
  */
 /* A λ function is an abstraction over a λ expression. The λ precedes and introduces a name used for abstraction. The name is called the function's 'bound variable'. The '.' separates the name from the expression in which the abstraction with that name takes place. This expression is called the function's 'body'.
@@ -166,4 +178,54 @@ const iszero = n => n(select_first);
 
 // def pred = λn.(((iszero n) zero) (n select_second))
 const pred = n => (iszero(n)(zero))(n(select_second));
+
+/* ==============================================================================================================
+ * R E P I T I T I O N,  I T E R A T I O N  A N D  R E C U R S I O N
+ * -----------------------------------------------------------------
+ * 
+ */
+/*
+ * The Y-combinator
+ * ----------------
+ * def recursive f = λs.(f (s s)) λs.(f (s s)) =>
+ * def recursive = λf.(λs.(f (s s)) λs.(f (s s)))
+ *
+ * def Y = recursive
+ */
+//const recursive = f => (s => f(s(s)))(s => f(s(s)));
+const recursive = f => (s => (f(s(s)))(s => (f(s(s)))));
+//const Y = f => (s => f(n => s(s)(n)))(s => f(n => s(s)(n)));
+
+/* ==============================================================================================================
+ * ARITHMETIC
+ * ----------
+ */
+
+/*
+ * def add1 f x y =
+ *   if iszero y
+ *   then x
+ *   else f (succ x) (pred y) =>
+ *
+ * def add1 = λf.λx.λy.(cond x (f (succ x) (pred y)) (iszero y)) =>
+ * def add1 = λf.λx.λy.(λe1.λe2.λc.((c e1) e2) x (f (succ x) (pred y)) (iszero y)) => ... =>
+ * def add1 = λf.λx.λy.(((iszero y) x) (f (succ x) (pred y)))
+ *
+ * def add = Y add1
+ */
+//const add1 = f => x => y => iszero(y) === TRUE ? x : f(succ(x))(pred(y));
+//const add = recursive(add1);
+//const add1 = f => x => y => ((iszero(y))(x)(f(succ(x))(pred(y))));
+const add1 = f => x => y => (((iszero(y))(x))((f(succ(x))(pred(y)))));
+
+/*
+ * def mult x y =
+ *   if iszero y
+ *   then zero
+ *   else add x (mult x (pred y)) =>
+ *
+ * def add = λx.λy.(cond zero (add x (mult x (pred y))) (iszero y)) =>
+ * def add = λx.λy.(λe1.λe2.λc.((c e1) e2) zero (add x (mult x (pred y))) (iszero y)) => ... =>
+ * def add = λx.λy.(((iszero y) zero) (add x (mult x (pred y)))
+ */
 
